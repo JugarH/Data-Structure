@@ -1,5 +1,5 @@
 /*
-* ½ÌÑ§¼Æ»®±àÖÆ 
+* æ•™å­¦è®¡åˆ’ç¼–åˆ¶ 
 */
 #include<stdio.h>
 #include<malloc.h>
@@ -9,34 +9,34 @@
 #define OK 1
 #define ERROR 0
 #define OVERFLOW -1
-#define MAX_VERTEX_NUM 100    //×î´ó¿Î³Ì×ÜÊı
-#define STACK_INIT_SIZE 100 //´æ´¢¿Õ¼äµÄ³õÊ¼·ÖÅäÁ¿
-#define STACK_INCREMENT 10    //´æ´¢¿Õ¼äµÄ·ÖÅäÔöÁ¿
+#define MAX_VERTEX_NUM 100    //æœ€å¤§è¯¾ç¨‹æ€»æ•°
+#define STACK_INIT_SIZE 100 //å­˜å‚¨ç©ºé—´çš„åˆå§‹åˆ†é…é‡
+#define STACK_INCREMENT 10    //å­˜å‚¨ç©ºé—´çš„åˆ†é…å¢é‡
 #define PATH "teachingPlan.txt"
 #define OUTPATH "outputPlan.txt"
-typedef int Status;        //º¯ÊıÖµÀàĞÍ£¬±íÊ¾º¯Êı½á¹û×´Ì¬
+typedef int Status;        //å‡½æ•°å€¼ç±»å‹ï¼Œè¡¨ç¤ºå‡½æ•°ç»“æœçŠ¶æ€
 typedef int ElemType;
-int numTerm;    //Ñ§ÆÚ×ÜÊı 
-float upCredit;    //Ò»Ñ§ÆÚÑ§·ÖÉÏÏŞ
-//Í¼µÄÁÚ½Ó±í´æ´¢±íÊ¾	 
-typedef char VexType; //¶¥µãÀàĞÍ 
+int numTerm;    //å­¦æœŸæ€»æ•° 
+float upCredit;    //ä¸€å­¦æœŸå­¦åˆ†ä¸Šé™
+//å›¾çš„é‚»æ¥è¡¨å­˜å‚¨è¡¨ç¤º	 
+typedef char VexType; //é¡¶ç‚¹ç±»å‹ 
 typedef struct ArcNode {
-    int adjvex;              //ÁÚ½Ó¶¥µãÔÚ¶¥µãÊı×éÖĞµÄÎ»Ğò 
-    struct ArcNode *nextArc;  //Ö¸ÏòÏÂÒ»¸öÁÚ½Ó¶¥µãµÄÖ¸Õë
+    int adjvex;              //é‚»æ¥é¡¶ç‚¹åœ¨é¡¶ç‚¹æ•°ç»„ä¸­çš„ä½åº 
+    struct ArcNode *nextArc;  //æŒ‡å‘ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹çš„æŒ‡é’ˆ
 } ArcNode, *ArcNodeP;
 typedef struct VexNode {
-    int classId;        //¿Î³Ì±àºÅ
-    char name[20];        //¿Î³ÌÃû³Æ 
-    float credit;            //Ñ§·Ö
-    int inDegree;        //¸Ã½áµãµÄÈë¶È
-    int learned;        //1ÎªÒÑÑ§£¬0ÎªÎ´Ñ§ 
-    ArcNode *firstArc;    //ÁÚ½ÓÁ´±íµÄÍ·Ö¸Õë 
+    int classId;        //è¯¾ç¨‹ç¼–å·
+    char name[20];        //è¯¾ç¨‹åç§° 
+    float credit;            //å­¦åˆ†
+    int inDegree;        //è¯¥ç»“ç‚¹çš„å…¥åº¦
+    int learned;        //1ä¸ºå·²å­¦ï¼Œ0ä¸ºæœªå­¦ 
+    ArcNode *firstArc;    //é‚»æ¥é“¾è¡¨çš„å¤´æŒ‡é’ˆ 
 } VexNode, AdjList[MAX_VERTEX_NUM];
 typedef struct {
-    AdjList vexs;    //¶¥µãÊı×é£¬ÓÃÓÚ´¢´æ¶¥µãĞÅÏ¢ 
-    int n, e;        //Í¼µÄµ±Ç°¶¥µãÊıºÍ»¡Êı
-} ALGraph;            //ÁÚ½Ó±íÀàĞÍ 
-//Õ»µÄË³Ğò´æ´¢±íÊ¾ 
+    AdjList vexs;    //é¡¶ç‚¹æ•°ç»„ï¼Œç”¨äºå‚¨å­˜é¡¶ç‚¹ä¿¡æ¯ 
+    int n, e;        //å›¾çš„å½“å‰é¡¶ç‚¹æ•°å’Œå¼§æ•°
+} ALGraph;            //é‚»æ¥è¡¨ç±»å‹ 
+//æ ˆçš„é¡ºåºå­˜å‚¨è¡¨ç¤º 
 typedef struct {
     ElemType *elem;
     ElemType *top;
@@ -44,8 +44,8 @@ typedef struct {
     int increment;
 } SqStack;
 
-/*  ¹¦ÄÜº¯Êı  */
-//³õÊ¼»¯Õ»
+/*  åŠŸèƒ½å‡½æ•°  */
+//åˆå§‹åŒ–æ ˆ
 Status InitStack(SqStack *S) {
     S->elem = (ElemType *) malloc(STACK_INIT_SIZE * sizeof(ElemType));
     if (!S->elem)
@@ -56,7 +56,7 @@ Status InitStack(SqStack *S) {
     return OK;
 }
 
-//ÅĞ¶ÏÕ»¿Õ
+//åˆ¤æ–­æ ˆç©º
 Status StackEmpty(SqStack S) {
     if (S.top == S.elem)
         return TRUE;
@@ -64,7 +64,7 @@ Status StackEmpty(SqStack S) {
         return FALSE;
 }
 
-//½øÕ»
+//è¿›æ ˆ
 Status Push(SqStack *S, ElemType e) {
     if ((S->top) - (S->elem) >= S->size) {
         S->elem = (ElemType *) realloc(S->elem, (S->size + S->increment) * sizeof(ElemType));
@@ -76,66 +76,66 @@ Status Push(SqStack *S, ElemType e) {
     *(S->top++) = e;
 }
 
-//³öÕ»   
+//å‡ºæ ˆ   
 Status Pop(SqStack *S, ElemType *e) {
     if (S->top == S->elem)
         return ERROR;
     *e = *(--S->top);
 }
 
-//´´½¨Í¼(ÎÄ¼şµ¼Èë) 
+//åˆ›å»ºå›¾(æ–‡ä»¶å¯¼å…¥) 
 Status CreateGraph(ALGraph *G) {
     ArcNode *p;
     int i, j, k;
     FILE *fp;
     char term[10], course[10], credit[16], firstNum[18];
     if (NULL == (fp = fopen(PATH, "r"))) {
-        printf("\nÕÒ²»µ½ÎÄ¼ş£¡");
+        printf("\næ‰¾ä¸åˆ°æ–‡ä»¶ï¼");
         return ERROR;
     }
     fscanf(fp, "%s%d", term, &numTerm);
-    printf("\n%s£º%d", term, numTerm);
+    printf("\n%sï¼š%d", term, numTerm);
     fscanf(fp, "%s%d", course, &G->n);
-    printf("\n%s£º%d", course, G->n);
+    printf("\n%sï¼š%d", course, G->n);
     fscanf(fp, "\n%s%f", credit, &upCredit);
-    printf("\n%s£º%.1f\n", credit, upCredit);
+    printf("\n%sï¼š%.1f\n", credit, upCredit);
     for (i = 1; i <= G->n; i++) {
-        printf("\n\n¿Î³Ì±àºÅ£ºL%d", i);
+        printf("\n\nè¯¾ç¨‹ç¼–å·ï¼šL%d", i);
         G->vexs[i].classId = i;
         fscanf(fp, "%s", &G->vexs[i].name);
-        printf("\nÇëÊäÈë¿Î³ÌÃû³Æ£º%s", G->vexs[i].name);
+        printf("\nè¯·è¾“å…¥è¯¾ç¨‹åç§°ï¼š%s", G->vexs[i].name);
         fscanf(fp, "%f", &G->vexs[i].credit);
-        printf("\nÇëÊäÈë¸Ã¿Î³ÌµÄÑ§·Ö£º%.1f", G->vexs[i].credit);
+        printf("\nè¯·è¾“å…¥è¯¥è¯¾ç¨‹çš„å­¦åˆ†ï¼š%.1f", G->vexs[i].credit);
         G->vexs[i].inDegree = 0;
         G->vexs[i].learned = 0;
         G->vexs[i].firstArc = NULL;
     }
     fscanf(fp, "%s%d", firstNum, &G->e);
-    printf("\n\n%s£º%d", firstNum, G->e);
-    printf("\nÃ¿¸ö¿Î³ÌµÄÏÈĞŞ¹ØÏµ(ÏÈĞŞ¿Î³ÌÔÚÇ°)\n");
+    printf("\n\n%sï¼š%d", firstNum, G->e);
+    printf("\næ¯ä¸ªè¯¾ç¨‹çš„å…ˆä¿®å…³ç³»(å…ˆä¿®è¯¾ç¨‹åœ¨å‰)\n");
     for (i = 1; i <= G->e; i++) {
         fscanf(fp, "%d%d", &j, &k);
-        printf("%02d. ´æÔÚÏÈĞŞ¹ØÏµµÄÁ½¸ö¿Î³ÌµÄ±àºÅ£ºL%d,L%d\n", i, j, k);
+        printf("%02d. å­˜åœ¨å…ˆä¿®å…³ç³»çš„ä¸¤ä¸ªè¯¾ç¨‹çš„ç¼–å·ï¼šL%d,L%d\n", i, j, k);
         p = (ArcNode *) malloc(sizeof(ArcNode));
         if (!p)
             return OVERFLOW;
         p->adjvex = k;
         p->nextArc = G->vexs[j].firstArc;
-        G->vexs[j].firstArc = p; //²åÔÚ±íÍ· 
+        G->vexs[j].firstArc = p; //æ’åœ¨è¡¨å¤´ 
     }
     fclose(fp);
     return OK;
 }
 
-// ´òÓ¡ÁÚ½Ó±í
+// æ‰“å°é‚»æ¥è¡¨
 void PrintG(ALGraph G) {
     int i;
     ArcNodeP p;
-    printf("\n´´½¨Í¼ĞÅÏ¢ÈçÏÂ£º\n(1)%d¸ö¶¥µã£º\n", G.n);
-    printf("¿Î³Ì±àºÅ\t¿Î³ÌÃû³Æ\t\t¿Î³ÌÑ§·Ö\n");
+    printf("\nåˆ›å»ºå›¾ä¿¡æ¯å¦‚ä¸‹ï¼š\n(1)%dä¸ªé¡¶ç‚¹ï¼š\n", G.n);
+    printf("è¯¾ç¨‹ç¼–å·\tè¯¾ç¨‹åç§°\t\tè¯¾ç¨‹å­¦åˆ†\n");
     for (i = 1; i <= G.n; i++)
-        printf("L%-4d\t\t%-18s\t%-4.1fÑ§·Ö\n", G.vexs[i].classId, G.vexs[i].name, G.vexs[i].credit);
-    printf("(2)%dÌõ»¡£º\n", G.e);
+        printf("L%-4d\t\t%-18s\t%-4.1få­¦åˆ†\n", G.vexs[i].classId, G.vexs[i].name, G.vexs[i].credit);
+    printf("(2)%dæ¡å¼§ï¼š\n", G.e);
     for (i = 1; i <= G.n; i++) {
         printf("L%d:->", G.vexs[i].classId);
         for (p = G.vexs[i].firstArc; p; p = p->nextArc)
@@ -144,7 +144,7 @@ void PrintG(ALGraph G) {
     }
 }
 
-//Çó¶¥µãÈë¶È
+//æ±‚é¡¶ç‚¹å…¥åº¦
 void FindInDegree(ALGraph G, int *inDegree) {
     int i;
     ArcNode *p;
@@ -154,69 +154,69 @@ void FindInDegree(ALGraph G, int *inDegree) {
     for (i = 1; i <= G.n; i++) {
         p = G.vexs[i].firstArc;
         while (p) {
-            inDegree[p->adjvex]++; //ÓĞÁÚ½Ó¶¥µã£¬Èë¶È¼Ó1 
+            inDegree[p->adjvex]++; //æœ‰é‚»æ¥é¡¶ç‚¹ï¼Œå…¥åº¦åŠ 1 
             p = p->nextArc;
         }
     }
     free(p);
 }
 
-//ÍØÆËÅÅĞò£¨Ê¹¿Î³Ì¾¡Á¿Æ½¾ù£© 
+//æ‹“æ‰‘æ’åºï¼ˆä½¿è¯¾ç¨‹å°½é‡å¹³å‡ï¼‰ 
 void TopologicalSort_avg(ALGraph G) {
 	FILE *fp;
 	if (NULL == (fp = fopen(OUTPATH, "a"))) {
-        printf("\nÕÒ²»µ½ÎÄ¼ş£¡");
+        printf("\næ‰¾ä¸åˆ°æ–‡ä»¶ï¼");
         return;
     } 
     int i, j, k, sumClass, max;
     j = 1;
-    sumClass = 0; //¿Î³ÌÊıÄ¿ÀÛ¼Ó 
-    max = G.n / numTerm + 1; //Ê¹¿Î³Ì¾¡Á¿Æ½¾ù£¬ÁîÃ¿Ñ§ÆÚ¿Î³Ì×î¶àÎª¿Î³Ì×ÜÊı/Ñ§ÆÚÊı(ÏòÉÏÈ¡Õû) 
+    sumClass = 0; //è¯¾ç¨‹æ•°ç›®ç´¯åŠ  
+    max = G.n / numTerm + 1; //ä½¿è¯¾ç¨‹å°½é‡å¹³å‡ï¼Œä»¤æ¯å­¦æœŸè¯¾ç¨‹æœ€å¤šä¸ºè¯¾ç¨‹æ€»æ•°/å­¦æœŸæ•°(å‘ä¸Šå–æ•´) 
     int *inDegree;
     inDegree = (int *) malloc(G.n * sizeof(int));
-    int count = 0; //¿Î³Ì±àÅÅÊıÄ¿
-    float sumCredit = 0; //Ã¿Ñ§ÆÚÑ§·ÖÀÛ¼Ó 
+    int count = 0; //è¯¾ç¨‹ç¼–æ’æ•°ç›®
+    float sumCredit = 0; //æ¯å­¦æœŸå­¦åˆ†ç´¯åŠ  
     ArcNode *p;
     SqStack S;
-    FindInDegree(G, inDegree);    //¸÷½áµãÇóÈë¶È
+    FindInDegree(G, inDegree);    //å„ç»“ç‚¹æ±‚å…¥åº¦
     for (i = 1; i <= G.n; i++) {
         G.vexs[i].inDegree = inDegree[i];
     }
-    InitStack(&S);    //³õÊ¼»¯Õ» 
-    printf("\n************ ¿Î³Ì±àÅÅ·½°¸ÈçÏÂ(¾¡Á¿Æ½¾ù) ************\n");
-    fprintf(fp, "\n************ ¿Î³Ì±àÅÅ·½°¸ÈçÏÂ(¾¡Á¿Æ½¾ù) ************\n");
+    InitStack(&S);    //åˆå§‹åŒ–æ ˆ 
+    printf("\n************ è¯¾ç¨‹ç¼–æ’æ–¹æ¡ˆå¦‚ä¸‹(å°½é‡å¹³å‡) ************\n");
+    fprintf(fp, "\n************ è¯¾ç¨‹ç¼–æ’æ–¹æ¡ˆå¦‚ä¸‹(å°½é‡å¹³å‡) ************\n");
     while (j <= numTerm) {
         sumCredit = 0;
         sumClass = 0;
         for (i = 1; i <= G.n; i++) {
             if ((!G.vexs[i].inDegree) && (!G.vexs[i].learned)) {
-                //½«Èë¶ÈÎª0µÄ¶¥µãÈëÕ»
+                //å°†å…¥åº¦ä¸º0çš„é¡¶ç‚¹å…¥æ ˆ
                 Push(&S, i);
                 G.vexs[i].learned = 1;
             }
         }
-        printf("\nµÚ%d¸öÑ§ÆÚµÄ¿Î³ÌÓĞ£º", j);
-        fprintf(fp, "\nµÚ%d¸öÑ§ÆÚµÄ¿Î³ÌÓĞ£º", j);
+        printf("\nç¬¬%dä¸ªå­¦æœŸçš„è¯¾ç¨‹æœ‰ï¼š", j);
+        fprintf(fp, "\nç¬¬%dä¸ªå­¦æœŸçš„è¯¾ç¨‹æœ‰ï¼š", j);
         while ((!StackEmpty(S)) && (sumCredit <= upCredit) && (sumClass <= max)) {
-            //Õ»²»Îª¿Õ£¬µ±Ç°Ñ§ÆÚÑ§·Ö²»´óÓÚÒ»Ñ§ÆÚÑ§·ÖÉÏÏŞ£¬µ±Ç°Ñ§ÆÚ¿Î³ÌÊı²»´óÓÚÃ¿Ñ§ÆÚ¿Î³Ì×î´óÊı 
-            Pop(&S, &k); //Õ»¶¥¿Î³Ì½áµã³öÕ» 
-            sumCredit += G.vexs[k].credit; //¸ÃÑ§ÆÚÑ§·ÖÀÛ¼Ó 
-            sumClass++; //¸ÃÑ§ÆÚ¿Î³ÌÊıÄ¿ÀÛ¼Ó 
-            if (sumCredit <= upCredit && sumClass <= max) { //Èô¸ÃÑ§ÆÚµ±Ç°Ñ§·ÖÈÔ²»´óÓÚÑ§ÆÚÑ§·ÖÉÏÏŞÇÒµ±Ç°Ñ§ÆÚ¿Î³ÌÊı²»´óÓÚÃ¿Ñ§ÆÚ¿Î³Ì×î´óÊı  
+            //æ ˆä¸ä¸ºç©ºï¼Œå½“å‰å­¦æœŸå­¦åˆ†ä¸å¤§äºä¸€å­¦æœŸå­¦åˆ†ä¸Šé™ï¼Œå½“å‰å­¦æœŸè¯¾ç¨‹æ•°ä¸å¤§äºæ¯å­¦æœŸè¯¾ç¨‹æœ€å¤§æ•° 
+            Pop(&S, &k); //æ ˆé¡¶è¯¾ç¨‹ç»“ç‚¹å‡ºæ ˆ 
+            sumCredit += G.vexs[k].credit; //è¯¥å­¦æœŸå­¦åˆ†ç´¯åŠ  
+            sumClass++; //è¯¥å­¦æœŸè¯¾ç¨‹æ•°ç›®ç´¯åŠ  
+            if (sumCredit <= upCredit && sumClass <= max) { //è‹¥è¯¥å­¦æœŸå½“å‰å­¦åˆ†ä»ä¸å¤§äºå­¦æœŸå­¦åˆ†ä¸Šé™ä¸”å½“å‰å­¦æœŸè¯¾ç¨‹æ•°ä¸å¤§äºæ¯å­¦æœŸè¯¾ç¨‹æœ€å¤§æ•°  
                 count++;
-                printf("%s  ", G.vexs[k].name); //±àÅÅ¸Ã¿Î³Ì£¬½«¸Ã¿Î³ÌÊä³ö 
+                printf("%s  ", G.vexs[k].name); //ç¼–æ’è¯¥è¯¾ç¨‹ï¼Œå°†è¯¥è¯¾ç¨‹è¾“å‡º 
                 fprintf(fp, "%s  ", G.vexs[k].name); 
                 for (p = G.vexs[k].firstArc; p; p = p->nextArc) {
                     if (((--G.vexs[p->adjvex].inDegree) == 0) && (G.vexs[p->adjvex].learned == 0)) {
-                        //É¾È¥´Ë´ÎÑ­»·Êä³öµÄ¶¥µãµÄÁÚ½Ó±ß£¬²¢½«ĞÂµÄÁãÈë¶ÈµÄ¶¥µãÈëÕ»
+                        //åˆ å»æ­¤æ¬¡å¾ªç¯è¾“å‡ºçš„é¡¶ç‚¹çš„é‚»æ¥è¾¹ï¼Œå¹¶å°†æ–°çš„é›¶å…¥åº¦çš„é¡¶ç‚¹å…¥æ ˆ
                         Push(&S, p->adjvex);
                         G.vexs[p->adjvex].learned = 1;
                     }
                 }
             } else
-                Push(&S, k);//Ñ§·Ö´óÓÚÃ¿Ñ§ÆÚµÄÑ§·ÖÉÏÏŞ£¬ÖØĞÂÑ¹ÈëÕ» 
+                Push(&S, k);//å­¦åˆ†å¤§äºæ¯å­¦æœŸçš„å­¦åˆ†ä¸Šé™ï¼Œé‡æ–°å‹å…¥æ ˆ 
         }
-        j++; //µÚjÑ§ÆÚ 
+        j++; //ç¬¬jå­¦æœŸ 
     }
     printf("\n");
     free(inDegree);
@@ -224,63 +224,63 @@ void TopologicalSort_avg(ALGraph G) {
     fprintf(fp, "\n");
     fclose(fp);
     if (count < G.n)
-        printf("\n¿Î³Ì±àÅÅ·¢Éú´íÎó£¬Çë¼ì²éÊäÈë£¡\n");
+        printf("\nè¯¾ç¨‹ç¼–æ’å‘ç”Ÿé”™è¯¯ï¼Œè¯·æ£€æŸ¥è¾“å…¥ï¼\n");
     else
-        printf("\nDone£¡¿Î³Ì±àÅÅ³É¹¦£¡\n");
+        printf("\nDoneï¼è¯¾ç¨‹ç¼–æ’æˆåŠŸï¼\n");
 }
 
-//ÍØÆËÅÅĞò£¨Ê¹¿Î³Ì¾¡Á¿¼¯ÖĞÔÚÇ°¼¸Ñ§ÆÚ£© 
+//æ‹“æ‰‘æ’åºï¼ˆä½¿è¯¾ç¨‹å°½é‡é›†ä¸­åœ¨å‰å‡ å­¦æœŸï¼‰ 
 void TopologicalSort_front(ALGraph G) {
 	FILE *fp;
 	if (NULL == (fp = fopen(OUTPATH, "a"))) {
-        printf("\nÕÒ²»µ½ÎÄ¼ş£¡");
+        printf("\næ‰¾ä¸åˆ°æ–‡ä»¶ï¼");
         return;
     } 
     int i, j, k, sumClass;
     j = 1;
     int *inDegree;
     inDegree = (int *) malloc(G.n * sizeof(int));
-    int count = 0; //¿Î³Ì±àÅÅÊıÄ¿
-    float sumCredit = 0; //Ã¿Ñ§ÆÚÑ§·ÖÀÛ¼Ó 
+    int count = 0; //è¯¾ç¨‹ç¼–æ’æ•°ç›®
+    float sumCredit = 0; //æ¯å­¦æœŸå­¦åˆ†ç´¯åŠ  
     ArcNode *p;
     SqStack S;
-    FindInDegree(G, inDegree);    //¸÷½áµãÇóÈë¶È
+    FindInDegree(G, inDegree);    //å„ç»“ç‚¹æ±‚å…¥åº¦
     for (i = 1; i <= G.n; i++) {
         G.vexs[i].inDegree = inDegree[i];
     }
-    InitStack(&S);    //³õÊ¼»¯Õ» 
-    printf("\n************ ¿Î³Ì±àÅÅ·½°¸ÈçÏÂ(¾¡Á¿Ç°¼¸Ñ§ÆÚ) ************\n");
-    fprintf(fp, "\n************ ¿Î³Ì±àÅÅ·½°¸ÈçÏÂ(¾¡Á¿Ç°¼¸Ñ§ÆÚ) ************\n");
+    InitStack(&S);    //åˆå§‹åŒ–æ ˆ 
+    printf("\n************ è¯¾ç¨‹ç¼–æ’æ–¹æ¡ˆå¦‚ä¸‹(å°½é‡å‰å‡ å­¦æœŸ) ************\n");
+    fprintf(fp, "\n************ è¯¾ç¨‹ç¼–æ’æ–¹æ¡ˆå¦‚ä¸‹(å°½é‡å‰å‡ å­¦æœŸ) ************\n");
     while (j <= numTerm) {
         sumCredit = 0;
         for (i = 1; i <= G.n; i++) {
             if ((!G.vexs[i].inDegree) && (!G.vexs[i].learned)) {
-                //½«Èë¶ÈÎª0µÄ¶¥µãÈëÕ»
+                //å°†å…¥åº¦ä¸º0çš„é¡¶ç‚¹å…¥æ ˆ
                 Push(&S, i);
                 G.vexs[i].learned = 1;
             }
         }
-        printf("\nµÚ%d¸öÑ§ÆÚµÄ¿Î³ÌÓĞ£º", j);
-        fprintf(fp, "\nµÚ%d¸öÑ§ÆÚµÄ¿Î³ÌÓĞ£º", j);
+        printf("\nç¬¬%dä¸ªå­¦æœŸçš„è¯¾ç¨‹æœ‰ï¼š", j);
+        fprintf(fp, "\nç¬¬%dä¸ªå­¦æœŸçš„è¯¾ç¨‹æœ‰ï¼š", j);
         while ((!StackEmpty(S)) && (sumCredit <= upCredit)) {
-            //Õ»²»Îª¿Õ£¬µ±Ç°Ñ§ÆÚÑ§·Ö²»´óÓÚÒ»Ñ§ÆÚÑ§·ÖÉÏÏŞ
-            Pop(&S, &k); //Õ»¶¥¿Î³Ì½áµã³öÕ» 
-            sumCredit += G.vexs[k].credit; //¸ÃÑ§ÆÚÑ§·ÖÀÛ¼Ó 
-            if (sumCredit <= upCredit) { //Èô¸ÃÑ§ÆÚµ±Ç°Ñ§·ÖÈÔ²»´óÓÚÑ§ÆÚÑ§·ÖÉÏÏŞ 
+            //æ ˆä¸ä¸ºç©ºï¼Œå½“å‰å­¦æœŸå­¦åˆ†ä¸å¤§äºä¸€å­¦æœŸå­¦åˆ†ä¸Šé™
+            Pop(&S, &k); //æ ˆé¡¶è¯¾ç¨‹ç»“ç‚¹å‡ºæ ˆ 
+            sumCredit += G.vexs[k].credit; //è¯¥å­¦æœŸå­¦åˆ†ç´¯åŠ  
+            if (sumCredit <= upCredit) { //è‹¥è¯¥å­¦æœŸå½“å‰å­¦åˆ†ä»ä¸å¤§äºå­¦æœŸå­¦åˆ†ä¸Šé™ 
                 count++;
-                printf("%s  ", G.vexs[k].name); //±àÅÅ¸Ã¿Î³Ì£¬½«¸Ã¿Î³ÌÊä³ö 
+                printf("%s  ", G.vexs[k].name); //ç¼–æ’è¯¥è¯¾ç¨‹ï¼Œå°†è¯¥è¯¾ç¨‹è¾“å‡º 
                 fprintf(fp, "%s  ", G.vexs[k].name); 
                 for (p = G.vexs[k].firstArc; p; p = p->nextArc) {
                     if (((--G.vexs[p->adjvex].inDegree) == 0) && (G.vexs[p->adjvex].learned == 0)) {
-                        //É¾È¥´Ë´ÎÑ­»·Êä³öµÄ¶¥µãµÄÁÚ½Ó±ß£¬²¢½«ĞÂµÄÁãÈë¶ÈµÄ¶¥µãÈëÕ»
+                        //åˆ å»æ­¤æ¬¡å¾ªç¯è¾“å‡ºçš„é¡¶ç‚¹çš„é‚»æ¥è¾¹ï¼Œå¹¶å°†æ–°çš„é›¶å…¥åº¦çš„é¡¶ç‚¹å…¥æ ˆ
                         Push(&S, p->adjvex);
                         G.vexs[p->adjvex].learned = 1;
                     }
                 }
             } else
-                Push(&S, k);//Ñ§·Ö´óÓÚÃ¿Ñ§ÆÚµÄÑ§·ÖÉÏÏŞ£¬ÖØĞÂÑ¹ÈëÕ» 
+                Push(&S, k);//å­¦åˆ†å¤§äºæ¯å­¦æœŸçš„å­¦åˆ†ä¸Šé™ï¼Œé‡æ–°å‹å…¥æ ˆ 
         }
-        j++; //µÚjÑ§ÆÚ 
+        j++; //ç¬¬jå­¦æœŸ 
     }
     printf("\n");
     free(inDegree);
@@ -288,40 +288,40 @@ void TopologicalSort_front(ALGraph G) {
     fprintf(fp, "\n");
     fclose(fp);
     if (count < G.n)
-        printf("\n¿Î³Ì±àÅÅ·¢Éú´íÎó£¬Çë¼ì²éÊäÈë£¡\n");
+        printf("\nè¯¾ç¨‹ç¼–æ’å‘ç”Ÿé”™è¯¯ï¼Œè¯·æ£€æŸ¥è¾“å…¥ï¼\n");
     else
-        printf("\nDone£¡¿Î³Ì±àÅÅ³É¹¦£¡\n");
+        printf("\nDoneï¼è¯¾ç¨‹ç¼–æ’æˆåŠŸï¼\n");
 }
 
 int main() {
-    printf("-----------------Êı¾İ½á¹¹¿Î³ÌÉè¼Æ-----------------\n\n");
-    printf("|                  ½ÌÑ§¼Æ»®±àÖÆ                  |\n\n");
-    printf("|          °à¼¶£º¼ÆËã»ú¿ÆÑ§Óë¼¼Êõ19(1)°à         |\n\n");
-    printf("|                Ñ§ºÅ£º3119004733                |\n\n");
-    printf("|                  ĞÕÃû£º»Æ×æ¼Ñ                  |\n\n");
+    printf("-----------------æ•°æ®ç»“æ„è¯¾ç¨‹è®¾è®¡-----------------\n\n");
+    printf("|                  æ•™å­¦è®¡åˆ’ç¼–åˆ¶                  |\n\n");
+    printf("|          ç­çº§ï¼šXXXXXXXXXXXXXXXXXXXXX        |\n\n");
+    printf("|                å­¦å·ï¼šXXXXXXXXXX                |\n\n");
+    printf("|                  å§“åï¼šXXX                 |\n\n");
     printf("--------------------------------------------------\n\n");
-    printf("************ »¶Ó­Ê¹ÓÃ½ÌÑ§¼Æ»®±àÖÆÏµÍ³ ************\n\n");
-    int sortWay;    //±àÅÅ·½Ê½ 
+    printf("************ æ¬¢è¿ä½¿ç”¨æ•™å­¦è®¡åˆ’ç¼–åˆ¶ç³»ç»Ÿ ************\n\n");
+    int sortWay;    //ç¼–æ’æ–¹å¼ 
     int again;
     ALGraph G;
     CreateGraph(&G);
     PrintG(G);
-    printf("\nÊäÈë ·Ç0Êı ¼ÌĞø£¬ÊäÈë 0 ÍË³ö\n");
+    printf("\nè¾“å…¥ é0æ•° ç»§ç»­ï¼Œè¾“å…¥ 0 é€€å‡º\n");
     scanf("%d", &again);
     while (again) {
-        printf("\nÇëÑ¡Ôñ±àÅÅ·½Ê½£º1. ¿Î³Ì¾¡Á¿Æ½¾ù£»2. ¿Î³Ì¾¡Á¿¼¯ÖĞÔÚÇ°¼¸Ñ§ÆÚ\n");
+        printf("\nè¯·é€‰æ‹©ç¼–æ’æ–¹å¼ï¼š1. è¯¾ç¨‹å°½é‡å¹³å‡ï¼›2. è¯¾ç¨‹å°½é‡é›†ä¸­åœ¨å‰å‡ å­¦æœŸ\n");
         scanf("%d", &sortWay);
         while (sortWay != 1 && sortWay != 2) {
-            printf("ÊäÈëÓĞÎó£¡ÇëÖØĞÂÑ¡Ôñ±àÅÅ·½Ê½£º1. ¿Î³Ì¾¡Á¿Æ½¾ù£»2. ¿Î³Ì¾¡Á¿¼¯ÖĞÔÚÇ°¼¸Ñ§ÆÚ\n");
+            printf("è¾“å…¥æœ‰è¯¯ï¼è¯·é‡æ–°é€‰æ‹©ç¼–æ’æ–¹å¼ï¼š1. è¯¾ç¨‹å°½é‡å¹³å‡ï¼›2. è¯¾ç¨‹å°½é‡é›†ä¸­åœ¨å‰å‡ å­¦æœŸ\n");
             scanf("%d", &sortWay);
         }
         if (sortWay == 1)
             TopologicalSort_avg(G);
         else if (sortWay == 2)
             TopologicalSort_front(G);
-        printf("\nÊäÈë ·Ç0Êı ¼ÌĞø£¬ÊäÈë 0 ÍË³ö\n");
+        printf("\nè¾“å…¥ é0æ•° ç»§ç»­ï¼Œè¾“å…¥ 0 é€€å‡º\n");
         scanf("%d", &again);
     }
-    printf("\nÒÑÍË³ö£¡");
+    printf("\nå·²é€€å‡ºï¼");
     return 0;
 }
