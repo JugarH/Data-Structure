@@ -1,5 +1,5 @@
 /*
-*	ÓĞÏòÍ¼µÄÁÚ½Ó±í±íÊ¾
+*	æœ‰å‘å›¾çš„é‚»æ¥è¡¨è¡¨ç¤º
 */
 #include<stdio.h>
 #include<malloc.h>
@@ -11,49 +11,49 @@
 #define OVERFLOW -1
 #define UNVISITED 0
 #define VISITED 1
-typedef char VexType; //¶¥µãÀàĞÍ
-typedef int Status; //º¯ÊıÖµÀàĞÍ£¬±íÊ¾º¯Êı½á¹û×´Ì¬
+typedef char VexType; //é¡¶ç‚¹ç±»å‹
+typedef int Status; //å‡½æ•°å€¼ç±»å‹ï¼Œè¡¨ç¤ºå‡½æ•°ç»“æœçŠ¶æ€
 
-// Á´¶ÓÁĞÀàĞÍ¶¨Òå£¬ÓÃÓÚ±éÀú
+// é“¾é˜Ÿåˆ—ç±»å‹å®šä¹‰ï¼Œç”¨äºéå†
 typedef struct QNode {
     int data;
     struct QNode *next;
 } QNode, *QueuePtr;
 typedef struct {
-    QueuePtr front;    //¶ÓÍ·Ö¸Õë
-    QueuePtr rear;    //¶ÓÎ²Ö¸Õë
+    QueuePtr front;    //é˜Ÿå¤´æŒ‡é’ˆ
+    QueuePtr rear;    //é˜Ÿå°¾æŒ‡é’ˆ
 } Queue;
 
-// ÁÚ½Ó±íÀàĞÍ¶¨Òå
+// é‚»æ¥è¡¨ç±»å‹å®šä¹‰
 typedef struct ArcNode {
-    int adjvex; //ÁÚ½Ó¶¥µãÔÚ¶¥µãÊı×éÖĞµÄÎ»Ğò
-    struct ArcNode *nextArc; //Ö¸ÏòÏÂÒ»¸öÁÚ½Ó¶¥µãµÄÖ¸Õë
-} ArcNode, *ArcNodeP;         //ÁÚ½ÓÁ´±íµÄ½áµãÀàĞÍ
+    int adjvex; //é‚»æ¥é¡¶ç‚¹åœ¨é¡¶ç‚¹æ•°ç»„ä¸­çš„ä½åº
+    struct ArcNode *nextArc; //æŒ‡å‘ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹çš„æŒ‡é’ˆ
+} ArcNode, *ArcNodeP;         //é‚»æ¥é“¾è¡¨çš„ç»“ç‚¹ç±»å‹
 typedef struct VexNode {
-    VexType data; //¶¥µãÖµ
-    struct ArcNode *firstArc; //ÁÚ½ÓÁ´±íµÄÍ·Ö¸Õë
-} VexNode;    //¶¥µãÊı×éµÄÔªËØÀàĞÍ
+    VexType data; //é¡¶ç‚¹å€¼
+    struct ArcNode *firstArc; //é‚»æ¥é“¾è¡¨çš„å¤´æŒ‡é’ˆ
+} VexNode;    //é¡¶ç‚¹æ•°ç»„çš„å…ƒç´ ç±»å‹
 typedef struct {
-    VexNode *vertices; //¶¥µãÊı×é£¬ÓÃÓÚ´¢´æ¶¥µãĞÅÏ¢
-    int n, e;  //Í¼µÄµ±Ç°¶¥µãÊıºÍ»¡Êı
-    int *tags;  //±êÖ¾Êı×é£¬¿ÉÓÃÓÚÔÚÍ¼µÄ±éÀúÖĞ±ê¼Ç¶¥µã·ÃÎÊÓë·ñ
-} DG;        //ÁÚ½Ó±íÀàĞÍ
+    VexNode *vertices; //é¡¶ç‚¹æ•°ç»„ï¼Œç”¨äºå‚¨å­˜é¡¶ç‚¹ä¿¡æ¯
+    int n, e;  //å›¾çš„å½“å‰é¡¶ç‚¹æ•°å’Œå¼§æ•°
+    int *tags;  //æ ‡å¿—æ•°ç»„ï¼Œå¯ç”¨äºåœ¨å›¾çš„éå†ä¸­æ ‡è®°é¡¶ç‚¹è®¿é—®ä¸å¦
+} DG;        //é‚»æ¥è¡¨ç±»å‹
 
-// ³õÊ¼»¯Á´¶ÓÁĞ
+// åˆå§‹åŒ–é“¾é˜Ÿåˆ—
 void InitQueue(Queue *Q) {
     Q->front = Q->rear = (QueuePtr) malloc(sizeof(QNode));
     if (!Q->front) return;
     Q->front->next = NULL;
 }
 
-// Á´¶ÓÁĞÅĞ¿Õ
+// é“¾é˜Ÿåˆ—åˆ¤ç©º
 Status QueueEmpty(Queue Q) {
     if (Q.front == Q.rear)
         return TRUE;
     return FALSE;
 }
 
-// ÔªËØeÈë¶Ó
+// å…ƒç´ eå…¥é˜Ÿ
 Status EnQueue(Queue *Q, int e) {
     QueuePtr p;
     p = (QueuePtr) malloc(sizeof(QNode));
@@ -66,7 +66,7 @@ Status EnQueue(Queue *Q, int e) {
     return OK;
 }
 
-//³ö¶Ó
+//å‡ºé˜Ÿ
 Status DeQueue(Queue *Q, int *e) {
     QueuePtr p;
     if (NULL == Q->front) return ERROR;
@@ -78,12 +78,12 @@ Status DeQueue(Queue *Q, int *e) {
     return OK;
 }
 
-// ´òÓ¡ÁÚ½Ó±í 
+// æ‰“å°é‚»æ¥è¡¨ 
 void PrintG(DG G) {
     int i, j;
     ArcNodeP p;
     p = (ArcNodeP) malloc(sizeof(ArcNode));
-    printf("\nÓĞÏòÍ¼µÄÁÚ½Ó±í£º\n");
+    printf("\næœ‰å‘å›¾çš„é‚»æ¥è¡¨ï¼š\n");
     for (i = 0; i < G.n; i++) {
         printf("%d %c:->", i, G.vertices[i].data);
         for (p = G.vertices[i].firstArc; p; p = p->nextArc)
@@ -92,7 +92,7 @@ void PrintG(DG G) {
     }
 }
 
-// ²éÕÒ¶¥µãvÔÚÍ¼GÖĞµÄÎ»Ğò
+// æŸ¥æ‰¾é¡¶ç‚¹våœ¨å›¾Gä¸­çš„ä½åº
 int LocateVex(DG *G, VexType v) {
     int i;
     for (i = 0; i < G->n; i++) {
@@ -102,14 +102,14 @@ int LocateVex(DG *G, VexType v) {
     return -1;
 }
 
-// ´´½¨n¸ö¶¥µãºÍeÌõ±ßµÄÍ¼G
+// åˆ›å»ºnä¸ªé¡¶ç‚¹å’Œeæ¡è¾¹çš„å›¾G
 Status CreatDG(DG *G) {
     int i, j, k, n, e;
     VexType head, tail;
     ArcNode *p;
-    printf("ÇëÊäÈë¶¥µãÊı£º");
+    printf("è¯·è¾“å…¥é¡¶ç‚¹æ•°ï¼š");
     scanf("%d", &n);
-    printf("ÇëÊäÈë»¡Êı£º");
+    printf("è¯·è¾“å…¥å¼§æ•°ï¼š");
     scanf("%d", &e);
     if (n < 0 || e < 0) return ERROR;
     G->n = n;
@@ -117,22 +117,22 @@ Status CreatDG(DG *G) {
     G->vertices = (VexNode *) malloc(n * sizeof(VexNode));
     G->tags = (int *) malloc(n * sizeof(int));
     printf("\n");
-    for (i = 0; i < G->n; i++) {  //³õÊ¼»¯±êÖ¾Êı×é£¬½¨Á¢¶¥µãÊı×é
+    for (i = 0; i < G->n; i++) {  //åˆå§‹åŒ–æ ‡å¿—æ•°ç»„ï¼Œå»ºç«‹é¡¶ç‚¹æ•°ç»„
         getchar();
         G->tags[i] = UNVISITED;
-        printf("ÇëÊäÈëÎ»ĞòÎª%dµÄ¶¥µãĞÅÏ¢£º", i);
+        printf("è¯·è¾“å…¥ä½åºä¸º%dçš„é¡¶ç‚¹ä¿¡æ¯ï¼š", i);
         scanf("%c", &G->vertices[i].data);
         G->vertices[i].firstArc = NULL;
     }
     printf("\n");
     for (k = 0; k < G->e; k++) {
         getchar();
-        printf("ÇëÊäÈë»¡µÄĞÅÏ¢(»¡Î²->»¡Í·£¬Ó¢ÎÄ¶ººÅ/¿Õ¸ñ¼ä¸ô)£º");
+        printf("è¯·è¾“å…¥å¼§çš„ä¿¡æ¯(å¼§å°¾->å¼§å¤´ï¼Œè‹±æ–‡é€—å·/ç©ºæ ¼é—´éš”)ï¼š");
         scanf("%c%*c%c", &tail, &head);
         i = LocateVex(G, tail);
-        j = LocateVex(G, head); //È·¶¨headºÍtailµÄÎ»ĞòiºÍj
-        if (i < 0 || j < 0) return ERROR;    //¶¥µãv»òw²»´æÔÚ
-        p = (ArcNode *) malloc(sizeof(ArcNode)); //Îª¶¥µãw·ÖÅäp½áµã
+        j = LocateVex(G, head); //ç¡®å®šheadå’Œtailçš„ä½åºiå’Œj
+        if (i < 0 || j < 0) return ERROR;    //é¡¶ç‚¹væˆ–wä¸å­˜åœ¨
+        p = (ArcNode *) malloc(sizeof(ArcNode)); //ä¸ºé¡¶ç‚¹wåˆ†é…pç»“ç‚¹
         p->adjvex = j;
         p->nextArc = G->vertices[i].firstArc;
         G->vertices[i].firstArc = p;
@@ -141,7 +141,7 @@ Status CreatDG(DG *G) {
     return OK;
 }
 
-// Ïú»ÙÍ¼G
+// é”€æ¯å›¾G
 Status DestroyDG(DG *G) {
     ArcNode *p, *pre;
     int i;
@@ -160,108 +160,108 @@ Status DestroyDG(DG *G) {
     return OK;
 }
 
-// È¡Í¼GµÄk¶¥µãµÄÖµµ½w
+// å–å›¾Gçš„ké¡¶ç‚¹çš„å€¼åˆ°w
 Status GetVex(DG *G, int k, VexType *w) {
     if (k < 0 || k >= G->n)
-        return ERROR;    //k¶¥µã²»´æÔÚ
+        return ERROR;    //ké¡¶ç‚¹ä¸å­˜åœ¨
     *w = G->vertices[k].data;
     return OK;
 }
 
-// ¶ÔÍ¼GµÄk¶¥µã¸³Öµw
+// å¯¹å›¾Gçš„ké¡¶ç‚¹èµ‹å€¼w
 Status PutVex(DG *G, int k, VexType w) {
     if (k < 0 || k >= G->n)
-        return ERROR;    //k¶¥µã²»´æÔÚ
+        return ERROR;    //ké¡¶ç‚¹ä¸å­˜åœ¨
     G->vertices[k].data = w;
     return OK;
 }
 
-// ÇóµÚÒ»¸öÁÚ½Ó¶¥µã
+// æ±‚ç¬¬ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹
 int FirstAdjVex(DG *G, int k) {
     if (k < 0 || k >= G->n)
-        return -1;        //k¶¥µã²»´æÔÚ
+        return -1;        //ké¡¶ç‚¹ä¸å­˜åœ¨
     ArcNodeP p;
-    p = G->vertices[k].firstArc;    //pÖ¸Ïòk¶¥µã¶ÔÓ¦ÁÚ½ÓÁ´±íµÄµÚÒ»¸ö½áµã
+    p = G->vertices[k].firstArc;    //pæŒ‡å‘ké¡¶ç‚¹å¯¹åº”é‚»æ¥é“¾è¡¨çš„ç¬¬ä¸€ä¸ªç»“ç‚¹
     if (p)
-        return p->adjvex; //·µ»ØµÚÒ»¸ö½áµã´æ´¢µÄ¶¥µãÎ»Ğò
+        return p->adjvex; //è¿”å›ç¬¬ä¸€ä¸ªç»“ç‚¹å­˜å‚¨çš„é¡¶ç‚¹ä½åº
     else
-        return -1;    //k¶¥µãÎŞÁÚ½Ó¶¥µã
+        return -1;    //ké¡¶ç‚¹æ— é‚»æ¥é¡¶ç‚¹
 }
 
-// ÇóÏÂÒ»¸öÁÚ½Ó¶¥µã
+// æ±‚ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹
 int NextAdjVex(DG *G, int k, ArcNodeP p) {
     if (k < 0 || k >= G->n)
-        return -1;        //k¶¥µã²»´æÔÚ
+        return -1;        //ké¡¶ç‚¹ä¸å­˜åœ¨
     if (!p)
-        return -1;        //Ö¸ÕëpÎª¿Õ
-    p = p->nextArc;        //pÖ¸ÏòÏÂÒ»¸ö½áµã
+        return -1;        //æŒ‡é’ˆpä¸ºç©º
+    p = p->nextArc;        //pæŒ‡å‘ä¸‹ä¸€ä¸ªç»“ç‚¹
     if (p)
-        return p->adjvex;    //·µ»Øp½áµã´æ´¢µÄÏÂÒ»¸öÁÚ½Ó¶¥µãµÄÎ»Ğò
+        return p->adjvex;    //è¿”å›pç»“ç‚¹å­˜å‚¨çš„ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹çš„ä½åº
     else
-        return -1;        //k¶¥µãÎŞÏÂÒ»¸öÁÚ½Ó¶¥µã
+        return -1;        //ké¡¶ç‚¹æ— ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹
 }
 
-// ²åÈë¶¥µãkµ½mµÄ»¡(ÁÚ½ÓÁ´±íµÄ±íÍ·²åÈë)
+// æ’å…¥é¡¶ç‚¹kåˆ°mçš„å¼§(é‚»æ¥é“¾è¡¨çš„è¡¨å¤´æ’å…¥)
 Status AddArc(DG *G, int k, int m) {
     ArcNodeP p;
     if (k < 0 || k >= G->n || m < 0 || m >= G->n)
         return ERROR;
     p = G->vertices[k].firstArc;
-    while (p) {    //ÅĞ¶Ï»¡ÊÇ·ñ´æÔÚ
+    while (p) {    //åˆ¤æ–­å¼§æ˜¯å¦å­˜åœ¨
         if (m == p->adjvex)
-            return ERROR;    //»¡´æÔÚ£¬·µ»Ø
+            return ERROR;    //å¼§å­˜åœ¨ï¼Œè¿”å›
         p = p->nextArc;
     }
-    p = (ArcNode *) malloc(sizeof(ArcNode));    //Îªm¶¥µã·ÖÅäp½áµã
+    p = (ArcNode *) malloc(sizeof(ArcNode));    //ä¸ºmé¡¶ç‚¹åˆ†é…pç»“ç‚¹
     if (NULL == p)
         return OVERFLOW;
     p->adjvex = m;
-    p->nextArc = G->vertices[k].firstArc;    //ÔÚk¶¥µãµÄÁÚ½ÓÁ´±íµÄ±íÍ·²åÈëp½áµã
+    p->nextArc = G->vertices[k].firstArc;    //åœ¨ké¡¶ç‚¹çš„é‚»æ¥é“¾è¡¨çš„è¡¨å¤´æ’å…¥pç»“ç‚¹
     G->vertices[k].firstArc = p;
     G->e++;
     return OK;
 }
 
-// É¾³ı¶¥µãkµ½mµÄ»¡
+// åˆ é™¤é¡¶ç‚¹kåˆ°mçš„å¼§
 Status RemoveArc(DG *G, int k, int m) {
-    if (G->n == 0)    //GÖĞÎŞ±ß£¬·µ»Ø
+    if (G->n == 0)    //Gä¸­æ— è¾¹ï¼Œè¿”å›
         return ERROR;
     ArcNodeP p, pre;
-    p = G->vertices[k].firstArc;    //pÖ¸ÏòÁÚ½ÓÁ´±íµÄÍ·½áµã
+    p = G->vertices[k].firstArc;    //pæŒ‡å‘é‚»æ¥é“¾è¡¨çš„å¤´ç»“ç‚¹
     pre = NULL;
     while (p) {
-        if (m == p->adjvex) {        //ÈômÎª¸Ã½áµãÔÚÁÚ½ÓÊı×éÖĞµÄÎ»Ğò
-            if (!pre)    //¶¥µãmÎªÍ·½áµã
+        if (m == p->adjvex) {        //è‹¥mä¸ºè¯¥ç»“ç‚¹åœ¨é‚»æ¥æ•°ç»„ä¸­çš„ä½åº
+            if (!pre)    //é¡¶ç‚¹mä¸ºå¤´ç»“ç‚¹
                 G->vertices[k].firstArc = p->nextArc;
-            else    //¶¥µãm·ÇÍ·½áµã
+            else    //é¡¶ç‚¹méå¤´ç»“ç‚¹
                 pre->nextArc = p->nextArc;
             free(p);
-            G->e--;    //±ßÊı¼õ1
-            break;    //É¾³ıºóÍË³öÑ­»·
+            G->e--;    //è¾¹æ•°å‡1
+            break;    //åˆ é™¤åé€€å‡ºå¾ªç¯
         }
         pre = p;
         p = p->nextArc;
-        if (!p)    //ÎŞkµ½mµÄ±ß»ò»¡£¬·µ»Ø
+        if (!p)    //æ— kåˆ°mçš„è¾¹æˆ–å¼§ï¼Œè¿”å›
             return ERROR;
     }
 }
 
-//Visitº¯Êı
+//Visitå‡½æ•°
 Status Visit(VexType v) {
     printf("%c ", v);
     return OK;
 }
 
-// Éî¶ÈÓÅÏÈ±éÀúµİ¹éËã·¨ 
+// æ·±åº¦ä¼˜å…ˆéå†é€’å½’ç®—æ³• 
 Status DFS(DG G, int k, Status(*visit)(VexType)) {
     int i;
     G.tags[k] = VISITED;
-    visit(G.vertices[k].data); //Êä³ö¶¥µãÖµ
+    visit(G.vertices[k].data); //è¾“å‡ºé¡¶ç‚¹å€¼
     ArcNodeP p;
     p = (ArcNodeP) malloc(sizeof(ArcNode));
     p = G.vertices[k].firstArc;
     while (p) {
-        if (UNVISITED == G.tags[p->adjvex]) //Î´±éÀú¸Ã¶¥µã
+        if (UNVISITED == G.tags[p->adjvex]) //æœªéå†è¯¥é¡¶ç‚¹
             if (ERROR == DFS(G, p->adjvex, visit))
                 return ERROR;
         p = p->nextArc;
@@ -269,7 +269,7 @@ Status DFS(DG G, int k, Status(*visit)(VexType)) {
     return OK;
 }
 
-// Éî¶ÈÓÅÏÈ±éÀúÍ¼G
+// æ·±åº¦ä¼˜å…ˆéå†å›¾G
 Status DFSTraverse(DG G, Status(*visit)(VexType)) {
     int i;
     for (i = 0; i<G.n; i++) G.tags[i] = UNVISITED; 
@@ -279,7 +279,7 @@ Status DFSTraverse(DG G, Status(*visit)(VexType)) {
     return OK;
 }
 
-// ¹ã¶ÈÓÅÏÈ±éÀú
+// å¹¿åº¦ä¼˜å…ˆéå†
 Status BFSTraverse(DG G, Status(*visit)(VexType)) {
     int i, j, k;
     ArcNodeP p;
@@ -287,10 +287,10 @@ Status BFSTraverse(DG G, Status(*visit)(VexType)) {
     InitQueue(&Q);
     for (i = 0; i < G.n; i++) G.tags[i] = UNVISITED;
     for (i = 0; i < G.n; i++) {
-        if (UNVISITED == G.tags[i]) { //i¶¥µãÎ´±»·ÃÎÊ
+        if (UNVISITED == G.tags[i]) { //ié¡¶ç‚¹æœªè¢«è®¿é—®
             G.tags[i] = VISITED;
             if (ERROR == visit(G.vertices[i].data)) return ERROR;
-            EnQueue(&Q, i); //i¶¥µãÈë¶ÓÁĞ
+            EnQueue(&Q, i); //ié¡¶ç‚¹å…¥é˜Ÿåˆ—
             while (OK == DeQueue(&Q, &i)) {
                 p = G.vertices[i].firstArc;
                 while (p) {
@@ -308,116 +308,116 @@ Status BFSTraverse(DG G, Status(*visit)(VexType)) {
 }
 
 int main() {
-//    printf("------------- Éè¼ÆĞÔÊµÑé£¨ÓĞÏòÍ¼£©-------------\n\n");
-//    printf("|                  ¶ş¡¢ÁÚ½Ó±í                 |\n\n");
-//    printf("|        °à¼¶£º¼ÆËã»ú¿ÆÑ§Óë¼¼Êõ19(1)°à        |\n\n");
-//    printf("|              Ñ§ºÅ£º3119004733               |\n\n");
-//    printf("|                ĞÕÃû£º»Æ×æ¼Ñ                 |\n\n");
+//    printf("------------- è®¾è®¡æ€§å®éªŒï¼ˆæœ‰å‘å›¾ï¼‰-------------\n\n");
+//    printf("|                  äºŒã€é‚»æ¥è¡¨                 |\n\n");
+//    printf("|        ç­çº§ï¼šxxxxxxxxxxxxxxxxxxxx        |\n\n");
+//    printf("|              å­¦å·ï¼šxxxxxxxxxx               |\n\n");
+//    printf("|                å§“åï¼šxxx                 |\n\n");
 //    printf("-----------------------------------------------\n\n");
     DG G;
     int select, k, m;
     VexType v, w;
     ArcNodeP p;
     p = (ArcNodeP) malloc(sizeof(ArcNode));
-    printf("1. ´´½¨Í¼£»2. Ïú»ÙÍ¼£»3. ²éÕÒÎ»Ğò£»4. È¡k¶¥µãÖµ£»\n"
-           "5. Îªk¶¥µã¸³Öµ£»6. ²åÈë»¡£»7. É¾³ı»¡£»8. ÇóµÚÒ»¸öÁÚ½Ó¶¥µã£»\n"
-           "9. ÇóÏÂÒ»¸öÁÚ½Ó¶¥µã£»10. Éî¶ÈÓÅÏÈ±éÀú£»11. ¹ã¶ÈÓÅÏÈ±éÀú£»0. ÍË³ö\n"
-           "ÇëÑ¡Ôñ²Ù×÷£¨ÇëÏÈ´´½¨Í¼£©£º");
+    printf("1. åˆ›å»ºå›¾ï¼›2. é”€æ¯å›¾ï¼›3. æŸ¥æ‰¾ä½åºï¼›4. å–ké¡¶ç‚¹å€¼ï¼›\n"
+           "5. ä¸ºké¡¶ç‚¹èµ‹å€¼ï¼›6. æ’å…¥å¼§ï¼›7. åˆ é™¤å¼§ï¼›8. æ±‚ç¬¬ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹ï¼›\n"
+           "9. æ±‚ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹ï¼›10. æ·±åº¦ä¼˜å…ˆéå†ï¼›11. å¹¿åº¦ä¼˜å…ˆéå†ï¼›0. é€€å‡º\n"
+           "è¯·é€‰æ‹©æ“ä½œï¼ˆè¯·å…ˆåˆ›å»ºå›¾ï¼‰ï¼š");
     scanf("%d", &select);
     do {
         switch (select) {
             case 1:
-                printf("\n** 1. ´´½¨Í¼ **\n");
+                printf("\n** 1. åˆ›å»ºå›¾ **\n");
                 CreatDG(&G);
                 break;
             case 2:
-                printf("\n** 2. Ïú»ÙÍ¼ **\n");
+                printf("\n** 2. é”€æ¯å›¾ **\n");
                 if (DestroyDG(&G))
-                    printf("µ±Ç°Í¼Ïú»Ù³É¹¦£¡¶¥µãÊı£º%d£¬±ßÊı£º%d\n", G.n, G.e);
+                    printf("å½“å‰å›¾é”€æ¯æˆåŠŸï¼é¡¶ç‚¹æ•°ï¼š%dï¼Œè¾¹æ•°ï¼š%d\n", G.n, G.e);
                 break;
             case 3:
-                printf("\n** 3. ²éÕÒÎ»Ğò **\n");
-                printf("ÇëÊäÈëÒª²éÕÒµÄ¶¥µãµÄĞÅÏ¢£º");
+                printf("\n** 3. æŸ¥æ‰¾ä½åº **\n");
+                printf("è¯·è¾“å…¥è¦æŸ¥æ‰¾çš„é¡¶ç‚¹çš„ä¿¡æ¯ï¼š");
                 getchar();
                 scanf("%c", &v);
-                printf("¸Ã¶¥µãÎ»ĞòÎª£º%d\n", LocateVex(&G, v));
+                printf("è¯¥é¡¶ç‚¹ä½åºä¸ºï¼š%d\n", LocateVex(&G, v));
                 break;
             case 4:
-                printf("\n** 4. È¡k¶¥µãÖµ **\n");
-                printf("ÇëÊäÈëÒªÈ¡µÄ¶¥µãµÄÎ»Ğò£º");
+                printf("\n** 4. å–ké¡¶ç‚¹å€¼ **\n");
+                printf("è¯·è¾“å…¥è¦å–çš„é¡¶ç‚¹çš„ä½åºï¼š");
                 scanf("%d", &k);
                 GetVex(&G, k, &v);
-                printf("Î»ĞòÎª%dµÄ¶¥µãÖµÎª£º%c\n", k, v);
+                printf("ä½åºä¸º%dçš„é¡¶ç‚¹å€¼ä¸ºï¼š%c\n", k, v);
                 break;
             case 5:
-                printf("\n** 5. Îªk¶¥µã¸³Öµ **\n");
-                printf("ÇëÊäÈë¸³Öµ¶¥µãµÄÎ»Ğò£º");
+                printf("\n** 5. ä¸ºké¡¶ç‚¹èµ‹å€¼ **\n");
+                printf("è¯·è¾“å…¥èµ‹å€¼é¡¶ç‚¹çš„ä½åºï¼š");
                 scanf("%d", &k);
-                printf("ÇëÊäÈëËùÒª¸³µÄÖµ(charÀàĞÍ)£º");
+                printf("è¯·è¾“å…¥æ‰€è¦èµ‹çš„å€¼(charç±»å‹)ï¼š");
                 getchar();
                 scanf("%c", &v);
-                printf("¸³ÖµÇ°%d¶¥µãÖµÎª£º%c", k, G.vertices[k].data);
+                printf("èµ‹å€¼å‰%dé¡¶ç‚¹å€¼ä¸ºï¼š%c", k, G.vertices[k].data);
                 PutVex(&G, k, v);
-                printf("\n¸³Öµºó%d¶¥µãÖµÎª£º%c", k, v);
+                printf("\nèµ‹å€¼å%dé¡¶ç‚¹å€¼ä¸ºï¼š%c", k, v);
                 PrintG(G);
                 break;
             case 6:
-                printf("\n** 6. ²åÈë»¡ **");
+                printf("\n** 6. æ’å…¥å¼§ **");
                 PrintG(G);
-                printf("ÇëÑ¡ÔñÒª²åÈëµÄ»¡µÄ¶ËµãµÄÎ»Ğò(»¡Î²->»¡Í·£¬¿Õ¸ñ¸ô¿ª)£º");
+                printf("è¯·é€‰æ‹©è¦æ’å…¥çš„å¼§çš„ç«¯ç‚¹çš„ä½åº(å¼§å°¾->å¼§å¤´ï¼Œç©ºæ ¼éš”å¼€)ï¼š");
                 scanf("%d %d", &k, &m);
                 if (AddArc(&G, k, m))
-                    printf("²åÈë³É¹¦£¡\n");
+                    printf("æ’å…¥æˆåŠŸï¼\n");
                 else
-                    printf("»¡ÒÑ´æÔÚ£¬²åÈëÊ§°Ü£¡\n");
+                    printf("å¼§å·²å­˜åœ¨ï¼Œæ’å…¥å¤±è´¥ï¼\n");
                 PrintG(G);
                 break;
             case 7:
-                printf("\n** 7. É¾³ı»¡ **");
+                printf("\n** 7. åˆ é™¤å¼§ **");
                 PrintG(G);
-                printf("ÇëÑ¡ÔñÒªÉ¾³ıµÄ»¡µÄ¶ËµãµÄÎ»Ğò(»¡Î²->»¡Í·£¬¿Õ¸ñ¸ô¿ª)£º");
+                printf("è¯·é€‰æ‹©è¦åˆ é™¤çš„å¼§çš„ç«¯ç‚¹çš„ä½åº(å¼§å°¾->å¼§å¤´ï¼Œç©ºæ ¼éš”å¼€)ï¼š");
                 scanf("%d %d", &k, &m);
                 if (RemoveArc(&G, k, m))
-                    printf("É¾³ı³É¹¦£¡\n");
+                    printf("åˆ é™¤æˆåŠŸï¼\n");
                 else
-                    printf("»¡²»´æÔÚ£¬É¾³ıÊ§°Ü£¡\n");
+                    printf("å¼§ä¸å­˜åœ¨ï¼Œåˆ é™¤å¤±è´¥ï¼\n");
                 PrintG(G);
                 break;
             case 8:
-                printf("\n** 8. ÇóµÚÒ»¸öÁÚ½Ó¶¥µã **");
+                printf("\n** 8. æ±‚ç¬¬ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹ **");
                 PrintG(G);
-                printf("ÇëÊäÈëÒªÇóµÚÒ»¸öÁÚ½Ó¶¥µãµÄ¶¥µãÎ»Ğò£º");
+                printf("è¯·è¾“å…¥è¦æ±‚ç¬¬ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹çš„é¡¶ç‚¹ä½åºï¼š");
                 scanf("%d", &k);
-                printf("µÚÒ»¸öÁÚ½Ó¶¥µãµÄÎ»ĞòÎª£º%d\n", FirstAdjVex(&G, k));
+                printf("ç¬¬ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹çš„ä½åºä¸ºï¼š%d\n", FirstAdjVex(&G, k));
                 break;
             case 9:
-                printf("\n** 9. ÇóÏÂÒ»ÁÚ½Ó¶¥µã **");
+                printf("\n** 9. æ±‚ä¸‹ä¸€é‚»æ¥é¡¶ç‚¹ **");
                 PrintG(G);
-                printf("ÇókÏà¶ÔÓÚmµÄÏÂÒ»¸öÁÚ½Ó¶¥µãµÄ¶¥µãÎ»Ğò(ÇëÊäÈëk¡¢m£¬¿Õ¸ñ¸ô¿ª)£º");
+                printf("æ±‚kç›¸å¯¹äºmçš„ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹çš„é¡¶ç‚¹ä½åº(è¯·è¾“å…¥kã€mï¼Œç©ºæ ¼éš”å¼€)ï¼š");
                 scanf("%d %d", &k, &m);
                 p = G.vertices[k].firstArc;
                 while (p && p->adjvex != m)
                     p = p->nextArc;
-                printf("%cµÄÏÂÒ»¸öÁÚ½Ó¶¥µãµÄÎ»ĞòÎª£º%d\n", G.vertices[p->adjvex].data, NextAdjVex(&G, k, p));
+                printf("%cçš„ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹çš„ä½åºä¸ºï¼š%d\n", G.vertices[p->adjvex].data, NextAdjVex(&G, k, p));
                 break;
             case 10:
-                printf("\n** 10. Éî¶ÈÓÅÏÈ±éÀú **\n");
-                printf("Éî¶ÈÓÅÏÈ±éÀúĞòÁĞ£º");
+                printf("\n** 10. æ·±åº¦ä¼˜å…ˆéå† **\n");
+                printf("æ·±åº¦ä¼˜å…ˆéå†åºåˆ—ï¼š");
                 DFSTraverse(G, Visit);
                 printf("\n");
                 break;
             case 11:
-                printf("\n** 11. ¹ã¶ÈÓÅÏÈ±éÀú **\n");
-                printf("¹ã¶ÈÓÅÏÈ±éÀúĞòÁĞ£º");
+                printf("\n** 11. å¹¿åº¦ä¼˜å…ˆéå† **\n");
+                printf("å¹¿åº¦ä¼˜å…ˆéå†åºåˆ—ï¼š");
                 BFSTraverse(G, Visit);
                 printf("\n");
         }
-        printf("\n1. ´´½¨Í¼£»2. Ïú»ÙÍ¼£»3. ²éÕÒÎ»Ğò£»4. È¡k¶¥µãÖµ£»\n"
-               "5. Îªk¶¥µã¸³Öµ£»6. ²åÈë»¡£»7. É¾³ı»¡£»8. ÇóµÚÒ»¸öÁÚ½Ó¶¥µã£»\n"
-               "9. ÇóÏÂÒ»¸öÁÚ½Ó¶¥µã£»10. Éî¶ÈÓÅÏÈ±éÀú£»11. ¹ã¶ÈÓÅÏÈ±éÀú£»0. ÍË³ö\n"
-               "ÇëÑ¡Ôñ²Ù×÷£º");
+        printf("\n1. åˆ›å»ºå›¾ï¼›2. é”€æ¯å›¾ï¼›3. æŸ¥æ‰¾ä½åºï¼›4. å–ké¡¶ç‚¹å€¼ï¼›\n"
+               "5. ä¸ºké¡¶ç‚¹èµ‹å€¼ï¼›6. æ’å…¥å¼§ï¼›7. åˆ é™¤å¼§ï¼›8. æ±‚ç¬¬ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹ï¼›\n"
+               "9. æ±‚ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹ï¼›10. æ·±åº¦ä¼˜å…ˆéå†ï¼›11. å¹¿åº¦ä¼˜å…ˆéå†ï¼›0. é€€å‡º\n"
+               "è¯·é€‰æ‹©æ“ä½œï¼š");
         scanf("%d", &select);
     } while (select != 0);
-    printf("\n**** ÔËĞĞ½áÊø ****");
+    printf("\n**** è¿è¡Œç»“æŸ ****");
     return 0;
 }
